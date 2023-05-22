@@ -9,3 +9,9 @@ target 'FilmSearcher' do
   pod 'ReactiveKit'
 
 end
+
+target 'ServiceModule' do
+
+  pod 'ReactiveKit'
+
+end
