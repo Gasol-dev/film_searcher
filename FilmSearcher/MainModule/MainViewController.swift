@@ -95,7 +95,6 @@ private extension MainViewController {
                 .bottom
                 .equalToSuperview()
         }
-        tableView.backgroundColor = .yellow
     }
 }
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A95768A4B91C18ED1F049A4 /* libPods-FilmSearcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 089E1398062FEC89EDDE7731 /* libPods-FilmSearcher.a */; };
 		2DD791976B5239726D6C7D25 /* libPods-ServiceModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5640F96485F897C953D6BD8 /* libPods-ServiceModule.a */; };
+		DEAAE5E32A1CAA1C0028A0BE /* SearchStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAAE5E22A1CAA1C0028A0BE /* SearchStatusCode.swift */; };
 		DEAB8D042A1B4AF600F30626 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAB8D032A1B4AF600F30626 /* AppDelegate.swift */; };
 		DEAB8D062A1B4AF600F30626 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAB8D052A1B4AF600F30626 /* SceneDelegate.swift */; };
 		DEAB8D082A1B4AF600F30626 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAB8D072A1B4AF600F30626 /* MainViewController.swift */; };
@@ -58,6 +59,7 @@
 		77B412818D0D23A46C2F8901 /* Pods-ServiceModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceModule.debug.xcconfig"; path = "Target Support Files/Pods-ServiceModule/Pods-ServiceModule.debug.xcconfig"; sourceTree = "<group>"; };
 		B5640F96485F897C953D6BD8 /* libPods-ServiceModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ServiceModule.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCBF4B81FE14A513327E3C4F /* Pods-FilmSearcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilmSearcher.debug.xcconfig"; path = "Target Support Files/Pods-FilmSearcher/Pods-FilmSearcher.debug.xcconfig"; sourceTree = "<group>"; };
+		DEAAE5E22A1CAA1C0028A0BE /* SearchStatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStatusCode.swift; sourceTree = "<group>"; };
 		DEAB8D002A1B4AF600F30626 /* FilmSearcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilmSearcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEAB8D032A1B4AF600F30626 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEAB8D052A1B4AF600F30626 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				DEB32E752A1B854E007A0E62 /* Service.swift */,
 				DEB32E7A2A1B85C7007A0E62 /* ServiceProtocol.swift */,
 				DEB32E7C2A1B9DD2007A0E62 /* SearchResponse.swift */,
+				DEAAE5E22A1CAA1C0028A0BE /* SearchStatusCode.swift */,
 			);
 			path = ServiceModule;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 			files = (
 				DEB32E762A1B854E007A0E62 /* Service.swift in Sources */,
 				DEB32E7B2A1B85C7007A0E62 /* ServiceProtocol.swift in Sources */,
+				DEAAE5E32A1CAA1C0028A0BE /* SearchStatusCode.swift in Sources */,
 				DEB32E7D2A1B9DD2007A0E62 /* SearchResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
