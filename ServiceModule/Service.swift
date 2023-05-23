@@ -31,7 +31,7 @@ extension Service: ServiceProtocol {
     public func searchFilms(with token: String, name: String) -> Signal<[String], Error> {
         Signal { observer in
             guard
-                var urlComponents = URLComponents(string: "https://kinopoiskapiunofficial.tech/api/v2.1/search-by-keyword") else {
+                var urlComponents = URLComponents(string: "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword") else {
                 return BlockDisposable {
                     print("URL Components is nil")
                 }
@@ -52,20 +52,17 @@ extension Service: ServiceProtocol {
                 } else if let data = data,
                           let response = response as? HTTPURLResponse,
                           response.statusCode == SearchStatusCode.success.rawValue {
+                    print(response)
+                    print(data.description)
                     guard let responseObject = try? JSONDecoder().decode(SearchResponse.self, from: data) else {
                         print("Decoding error")
                         return
                     }
-                    observer.receive(responseObject.films)
+                    observer.receive(responseObject.films.map(\.name))
                     observer.receive(completion: .finished)
-                } else if let _ = data, // remove
+                } else if let _ = data,
                           let response = response as? HTTPURLResponse {
-                    observer.receive(
-                        SearchStatusCode(rawValue: response.statusCode)?
-                            .description
-                            .components(separatedBy: " ") ?? []
-                    )
-                    observer.receive(completion: .finished)
+                    print(SearchStatusCode(rawValue: response.statusCode)?.description)
                 }
             }
             dataTask.resume()
