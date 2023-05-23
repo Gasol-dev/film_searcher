@@ -105,7 +105,7 @@ extension MainViewController {
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else { return }
         mainStore
-            .dispatch(SearchAction(targetName: text))
+            .dispatch(text != "" ? SearchAction(targetName: text) : ResetSearchAction())
     }
 }
 

@@ -26,6 +26,8 @@ func mainReducer(action: Action, state: MainState?) -> MainState {
             }
     case let action as SearchResultAction:
         state.filmModels = action.result.map { FilmCellViewModel(filmName: $0) }
+    case _ as ResetSearchAction:
+        state.filmModels = []
     default:
         break
     }

@@ -7,7 +7,7 @@
 
 import ReSwift
 
-// MARK: - MainAction
+// MARK: - SearchResultAction
 
 struct SearchResultAction: Action {
     
@@ -24,3 +24,7 @@ struct SearchAction: Action {
     /// Target search name
     let targetName: String
 }
+
+// MARK: - ResetSearchAction
+
+struct ResetSearchAction: Action {}
