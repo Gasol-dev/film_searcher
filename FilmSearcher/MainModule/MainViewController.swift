@@ -17,7 +17,6 @@ final class MainViewController: UIViewController, StoreSubscriber {
     
     typealias StoreSubscriberStateType = MainState
     
-    
     // MARK: - Properties
     
     /// Table view instance
@@ -44,12 +43,11 @@ final class MainViewController: UIViewController, StoreSubscriber {
     override func viewWillDisappear(_ animated: Bool) {
         mainStore.unsubscribe(self)
     }
-    
-    
+
     // MARK: - Useful
     
     func newState(state: MainState) {
-        
+        tableView.reloadData()
     }
 }
 
@@ -81,6 +79,7 @@ private extension MainViewController {
         textField.layer.cornerRadius = 13
         textField.backgroundColor = .gray.withAlphaComponent(0.2)
         textField.placeholder = "Search"
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
     func setupTableView() {
@@ -100,6 +99,17 @@ private extension MainViewController {
     }
 }
 
+// MARK: - Actions
+
+extension MainViewController {
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        mainStore
+            .dispatch(SearchAction(targetName: text))
+    }
+}
+
 // MARK: - UITableViewDataSource
 
 extension MainViewController: UITableViewDataSource {
@@ -107,13 +117,13 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.dequeueReusableCell(withIdentifier: Constants.cellName, for: indexPath)
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         mainStore.state.filmModels.count
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegateку
 
 extension MainViewController: UITableViewDelegate {
     

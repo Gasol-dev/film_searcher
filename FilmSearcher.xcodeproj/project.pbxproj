@@ -25,7 +25,19 @@
 		DEB32E762A1B854E007A0E62 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB32E752A1B854E007A0E62 /* Service.swift */; };
 		DEB32E7B2A1B85C7007A0E62 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB32E7A2A1B85C7007A0E62 /* ServiceProtocol.swift */; };
 		DEB32E7D2A1B9DD2007A0E62 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB32E7C2A1B9DD2007A0E62 /* SearchResponse.swift */; };
+		DEB32E7E2A1BADD9007A0E62 /* libServiceModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEB32E732A1B854E007A0E62 /* libServiceModule.a */; };
+		DEB32E822A1BB200007A0E62 /* DependenciesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB32E812A1BB200007A0E62 /* DependenciesContainer.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DEB32E7F2A1BADD9007A0E62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEAB8CF82A1B4AF600F30626 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DEB32E722A1B854E007A0E62;
+			remoteInfo = ServiceModule;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		DEB32E712A1B854E007A0E62 /* CopyFiles */ = {
@@ -65,6 +77,7 @@
 		DEB32E752A1B854E007A0E62 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		DEB32E7A2A1B85C7007A0E62 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		DEB32E7C2A1B9DD2007A0E62 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		DEB32E812A1BB200007A0E62 /* DependenciesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenciesContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A95768A4B91C18ED1F049A4 /* libPods-FilmSearcher.a in Frameworks */,
+				DEB32E7E2A1BADD9007A0E62 /* libServiceModule.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +146,7 @@
 			children = (
 				DEAB8D032A1B4AF600F30626 /* AppDelegate.swift */,
 				DEAB8D052A1B4AF600F30626 /* SceneDelegate.swift */,
+				DEB32E812A1BB200007A0E62 /* DependenciesContainer.swift */,
 				DEB32E3C2A1B5D22007A0E62 /* MainModule */,
 				DEAB8D0C2A1B4AF800F30626 /* Assets.xcassets */,
 				DEAB8D0E2A1B4AF800F30626 /* LaunchScreen.storyboard */,
@@ -189,6 +204,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DEB32E802A1BADD9007A0E62 /* PBXTargetDependency */,
 			);
 			name = FilmSearcher;
 			productName = FilmSearcher;
@@ -318,6 +334,7 @@
 				DEB32E422A1B5D93007A0E62 /* MainReducer.swift in Sources */,
 				DEB32E3E2A1B5D34007A0E62 /* MainState.swift in Sources */,
 				DEB32E402A1B5D64007A0E62 /* MainAction.swift in Sources */,
+				DEB32E822A1BB200007A0E62 /* DependenciesContainer.swift in Sources */,
 				DEB32E462A1B6CD4007A0E62 /* FilmCellViewModel.swift in Sources */,
 				DEB32E442A1B5F95007A0E62 /* MainStore.swift in Sources */,
 				DEAB8D082A1B4AF600F30626 /* MainViewController.swift in Sources */,
@@ -339,6 +356,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DEB32E802A1BADD9007A0E62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DEB32E722A1B854E007A0E62 /* ServiceModule */;
+			targetProxy = DEB32E7F2A1BADD9007A0E62 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DEAB8D0E2A1B4AF800F30626 /* LaunchScreen.storyboard */ = {

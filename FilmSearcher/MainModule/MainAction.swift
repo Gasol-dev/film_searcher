@@ -9,4 +9,18 @@ import ReSwift
 
 // MARK: - MainAction
 
-struct MainAction: Action {}
+struct SearchResultAction: Action {
+    
+    /// Search result
+    let result: [String]
+}
+
+// MARK: - SearchAction
+
+struct SearchAction: Action {
+    
+    // MARK: - Properties
+    
+    /// Target search name
+    let targetName: String
+}

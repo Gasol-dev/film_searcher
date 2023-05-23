@@ -46,18 +46,33 @@ extension Service: ServiceProtocol {
             request.httpMethod = "GET"
             request.setValue(token, forHTTPHeaderField: "X-API-KEY")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            let dataTask = self.defaultSession.dataTask(with: url) { data, response, error in
+            let dataTask = self.defaultSession.dataTask(with: request) { data, response, error in
                 if let error = error {
                     observer.receive(completion: .failure(error))
-                } else if
-                    let data = data,
-                    let response = response as? HTTPURLResponse,
-                    response.statusCode == 200 {
+                } else if let data = data,
+                          let response = response as? HTTPURLResponse,
+                          response.statusCode == 200 {
                     guard let responseObject = try? JSONDecoder().decode(SearchResponse.self, from: data) else {
                         print("Decoding error")
                         return
                     }
+                    print(responseObject.films)
                     observer.receive(responseObject.films)
+                    observer.receive(completion: .finished)
+                } else if let _ = data, // remove
+                          let response = response as? HTTPURLResponse,
+                          response.statusCode == 404 {
+                    observer.receive(
+                        [
+                            "Film",
+                            "Film",
+                            "Film",
+                            "Film",
+                            "Film",
+                            "Film",
+                            "Film"
+                        ]
+                    )
                     observer.receive(completion: .finished)
                 }
             }

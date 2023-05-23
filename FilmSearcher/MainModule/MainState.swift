@@ -5,7 +5,7 @@
 //  Created by Alexander Lezya on 22.05.2023.
 //
 
-import Foundation
+import ReSwift
 
 // MARK: - MainState
 
@@ -14,5 +14,5 @@ struct MainState {
     // MARK: - Properties
     
     var token = APIConstants.token
-    var filmModels: [FilmCellViewModelProtocol] = []
+    var filmModels: [FilmCellViewModelProtocol]
 }
