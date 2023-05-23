@@ -56,7 +56,6 @@ extension Service: ServiceProtocol {
                         print("Decoding error")
                         return
                     }
-                    print(responseObject.films)
                     observer.receive(responseObject.films)
                     observer.receive(completion: .finished)
                 } else if let _ = data, // remove

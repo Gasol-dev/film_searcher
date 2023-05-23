@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import ReSwift
+import ReactiveKit
+import ServiceModule
 
 // MARK: - ViewController
 
@@ -22,8 +24,29 @@ final class MainViewController: UIViewController, StoreSubscriber {
     /// Table view instance
     private let tableView = UITableView()
     
+    /// Film models
+    private var filmModels: [FilmCellViewModelProtocol] = []
+    
     /// TextField instance
     private let textField = UITextField()
+    
+    /// DisposeBag instance
+    private let disposeBag = DisposeBag()
+    
+    /// Search service
+    private let searchService: ServiceProtocol
+    
+    // MARK: - Initializers
+    
+    init(filmModels: [FilmCellViewModelProtocol], searchService: ServiceProtocol) {
+        self.filmModels = filmModels
+        self.searchService = searchService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Overrides
 
@@ -47,7 +70,18 @@ final class MainViewController: UIViewController, StoreSubscriber {
     // MARK: - Useful
     
     func newState(state: MainState) {
-        tableView.reloadData()
+    }
+    
+    func makeSearchSignal(with text: String) {
+        searchService
+            .searchFilms(with: APIConstants.token, name: text)
+            .subscribe(on: ExecutionContext.global(qos: .userInitiated))
+            .receive(on: ExecutionContext.main)
+            .observeNext { [weak self] names in
+                self?.filmModels = names.map(FilmCellViewModel.init)
+                self?.tableView.reloadData()
+            }
+            .dispose(in: disposeBag)
     }
 }
 
@@ -104,8 +138,7 @@ extension MainViewController {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else { return }
-        mainStore
-            .dispatch(text != "" ? SearchAction(targetName: text) : ResetSearchAction())
+        makeSearchSignal(with: text)
     }
 }
 
@@ -118,7 +151,7 @@ extension MainViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        mainStore.state.filmModels.count
+        filmModels.count
     }
 }
 
@@ -128,7 +161,7 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? FilmCell else { return }
-        cell.setup(with: mainStore.state.filmModels[indexPath.item])
+        cell.setup(with: filmModels[indexPath.item])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

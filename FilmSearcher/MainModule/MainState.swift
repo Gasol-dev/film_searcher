@@ -14,5 +14,4 @@ struct MainState {
     // MARK: - Properties
     
     var token = APIConstants.token
-    var filmModels: [FilmCellViewModelProtocol]
 }

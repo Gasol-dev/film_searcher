@@ -18,11 +18,12 @@ final class DependenciesContainer {
     
     let container: Container = {
         let container = Container()
-        container.register(MainViewController.self) { _ in
-            MainViewController()
-        }
         container.register(ServiceProtocol.self) { r in
             Service(session: URLSession(configuration: .default))
+        }
+        container.register(MainViewController.self) { resolver in
+            let searchService = resolver.resolve(ServiceProtocol.self).unsafelyUnwrapped
+            return MainViewController(filmModels: [], searchService: searchService)
         }
         return container
     }()
