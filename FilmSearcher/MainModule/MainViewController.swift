@@ -36,6 +36,9 @@ final class MainViewController: UIViewController, StoreSubscriber {
     /// Search service
     private let searchService: ServiceProtocol
     
+    /// Activity indicator
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
+    
     // MARK: - Initializers
     
     init(filmModels: [FilmCellViewModelProtocol], searchService: ServiceProtocol) {
@@ -73,8 +76,10 @@ final class MainViewController: UIViewController, StoreSubscriber {
     }
     
     func makeSearchSignal(with text: String) {
+        activityIndicator.startAnimating()
         searchService
             .searchFilms(with: APIConstants.token, name: text)
+            .delay(interval: 1)
             .subscribe(on: ExecutionContext.global(qos: .userInitiated))
             .receive(on: ExecutionContext.main)
             .observeNext { [weak self] films in
@@ -85,6 +90,7 @@ final class MainViewController: UIViewController, StoreSubscriber {
                     )
                 }
                 self?.tableView.reloadData()
+                self?.activityIndicator.stopAnimating()
             }
             .dispose(in: disposeBag)
     }
@@ -97,6 +103,7 @@ private extension MainViewController {
     func setup() {
         setupTextField()
         setupTableView()
+        setupActivityIndicator()
     }
     
     func setupTextField() {
@@ -135,6 +142,15 @@ private extension MainViewController {
                 .equalToSuperview()
         }
     }
+    
+    func setupActivityIndicator() {
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints { make in
+            make
+                .center
+                .equalToSuperview()
+        }
+    }
 }
 
 // MARK: - Actions
@@ -143,7 +159,12 @@ extension MainViewController {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else { return }
-        makeSearchSignal(with: text)
+        if text == "" {
+            filmModels = []
+            tableView.reloadData()
+        } else {
+            makeSearchSignal(with: text)
+        }
     }
 }
 

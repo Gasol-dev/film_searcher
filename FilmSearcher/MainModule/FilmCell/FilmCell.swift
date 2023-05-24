@@ -46,6 +46,7 @@ final class FilmCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         posterImageView.image = nil
+        posterImageView.contentMode = .scaleAspectFit
     }
     
     override func layoutSubviews() {
