@@ -39,6 +39,17 @@ final class MainViewController: UIViewController, StoreSubscriber {
     /// Activity indicator
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
+    /// Not found label
+    private let notFoundLabel: UILabel = {
+        let label = UILabel()
+        label.text = Constants.notFoundText
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.isHidden = true
+        return label
+    }()
+    
+    private var disposableSearch: Disposable?
+    
     // MARK: - Initializers
     
     init(filmModels: [FilmCellViewModelProtocol], searchService: ServiceProtocol) {
@@ -75,13 +86,15 @@ final class MainViewController: UIViewController, StoreSubscriber {
     func newState(state: MainState) {
     }
     
-    func makeSearchSignal(with text: String) {
+    private func makeSearchSignal(with text: String) {
+        disposableSearch?.dispose()
         activityIndicator.startAnimating()
-        searchService
+        let searchSignal = searchService
             .searchFilms(with: APIConstants.token, name: text)
             .delay(interval: 1)
             .subscribe(on: ExecutionContext.global(qos: .userInitiated))
             .receive(on: ExecutionContext.main)
+        disposableSearch = searchSignal
             .observeNext { [weak self] films in
                 self?.filmModels = films.map {
                     FilmCellViewModel(
@@ -90,9 +103,18 @@ final class MainViewController: UIViewController, StoreSubscriber {
                     )
                 }
                 self?.tableView.reloadData()
+                self?.notFoundLabel.isHidden = !(self?.filmModels.isEmpty ?? false)
                 self?.activityIndicator.stopAnimating()
             }
+        disposableSearch?
             .dispose(in: disposeBag)
+    }
+    
+    private func resetTable() {
+        filmModels = []
+        disposableSearch?.dispose()
+        tableView.reloadData()
+        activityIndicator.stopAnimating()
     }
 }
 
@@ -104,6 +126,7 @@ private extension MainViewController {
         setupTextField()
         setupTableView()
         setupActivityIndicator()
+        setupNotFoundLabel()
     }
     
     func setupTextField() {
@@ -151,6 +174,15 @@ private extension MainViewController {
                 .equalToSuperview()
         }
     }
+    
+    func setupNotFoundLabel() {
+        tableView.addSubview(notFoundLabel)
+        notFoundLabel.snp.makeConstraints { make in
+            make
+                .center
+                .equalTo(view)
+        }
+    }
 }
 
 // MARK: - Actions
@@ -160,8 +192,7 @@ extension MainViewController {
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else { return }
         if text == "" {
-            filmModels = []
-            tableView.reloadData()
+            resetTable()
         } else {
             makeSearchSignal(with: text)
         }
@@ -201,5 +232,6 @@ extension MainViewController {
     
     enum Constants {
         static let cellName = "filmCell"
+        static let notFoundText = "Фильмы не найдены"
     }
 }

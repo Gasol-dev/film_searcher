@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - SearchStatusCode
 
-public enum SearchStatusCode: Int {
+enum SearchStatusCode: Int {
     
     // MARK: - Cases
     
