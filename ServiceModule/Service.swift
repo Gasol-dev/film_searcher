@@ -61,8 +61,9 @@ extension Service: ServiceProtocol {
                     observer.receive(responseObject.films)
                     observer.receive(completion: .finished)
                 } else if let _ = data,
-                          let response = response as? HTTPURLResponse {
-                    print(SearchStatusCode(rawValue: response.statusCode)?.description)
+                          let response = response as? HTTPURLResponse,
+                let searchStatusCode = SearchStatusCode(rawValue: response.statusCode) {
+                    print(searchStatusCode.description)
                 }
             }
             dataTask.resume()
