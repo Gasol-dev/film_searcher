@@ -28,7 +28,13 @@ final class MainViewController: UIViewController, StoreSubscriber {
     private var filmModels: [FilmCellViewModelProtocol] = []
     
     /// TextField instance
-    private let textField = UITextField()
+    private let textField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.backgroundColor = .gray.withAlphaComponent(0.2)
+        textField.placeholder = "Search"
+        return textField
+    }()
     
     /// DisposeBag instance
     private let disposeBag = DisposeBag()
@@ -145,9 +151,6 @@ private extension MainViewController {
                 .offset(-24)
             make.height.equalTo(45)
         }
-        textField.layer.cornerRadius = 13
-        textField.backgroundColor = .gray.withAlphaComponent(0.2)
-        textField.placeholder = "Search"
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
