@@ -7,6 +7,7 @@
 
 import Swinject
 import ServiceModule
+import SwinjectAutoregistration
 
 // MARK: - DependenciesContainer
 
@@ -22,7 +23,7 @@ final class DependenciesContainer {
             Service(session: URLSession(configuration: .default))
         }
         container.register(MainViewController.self) { resolver in
-            let searchService = resolver.resolve(ServiceProtocol.self).unsafelyUnwrapped
+            let searchService = resolver ~> ServiceProtocol.self
             return MainViewController(filmModels: [], searchService: searchService)
         }
         return container

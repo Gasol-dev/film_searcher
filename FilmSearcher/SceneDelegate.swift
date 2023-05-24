@@ -6,8 +6,7 @@
 //
 
 import UIKit
-import Swinject
-import ServiceModule
+import SwinjectAutoregistration
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -16,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = DependenciesContainer.default.container.resolve(MainViewController.self)
+        window.rootViewController = DependenciesContainer.default.container ~> MainViewController.self
         window.makeKeyAndVisible()
         self.window = window
     }

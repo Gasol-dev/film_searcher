@@ -7,6 +7,7 @@ target 'FilmSearcher' do
   pod 'SnapKit', '~> 5.6.0'
   pod 'ReSwift'
   pod 'ReactiveKit'
+  pod "SwinjectAutoregistration"
 
 end
 

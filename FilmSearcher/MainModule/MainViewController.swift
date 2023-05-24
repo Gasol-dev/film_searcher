@@ -175,6 +175,6 @@ extension MainViewController {
     
     enum Constants {
         static let cellName = "filmCell"
-        static let cellHeight: CGFloat = 45
+        static let cellHeight: CGFloat = 50
     }
 }
