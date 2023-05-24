@@ -8,6 +8,7 @@ target 'FilmSearcher' do
   pod 'ReSwift'
   pod 'ReactiveKit'
   pod "SwinjectAutoregistration"
+  pod "Kingfisher"
 
 end
 

@@ -28,7 +28,7 @@ final public class Service {
 
 extension Service: ServiceProtocol {
 
-    public func searchFilms(with token: String, name: String) -> Signal<[String], Error> {
+    public func searchFilms(with token: String, name: String) -> Signal<[Film], Error> {
         Signal { observer in
             guard
                 var urlComponents = URLComponents(string: "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword") else {
@@ -58,7 +58,7 @@ extension Service: ServiceProtocol {
                         print("Decoding error")
                         return
                     }
-                    observer.receive(responseObject.films.map(\.name))
+                    observer.receive(responseObject.films)
                     observer.receive(completion: .finished)
                 } else if let _ = data,
                           let response = response as? HTTPURLResponse {

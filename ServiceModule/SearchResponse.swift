@@ -18,18 +18,3 @@ struct SearchResponse: Decodable {
     let searchFilmsCountResult: Int
     let films: [Film]
 }
-
-// MARK: - Film
-
-struct Film: Decodable {
-    
-    // MARK: - Properties
-    
-    private var nameRu: String?
-    
-    private var nameEn: String?
-    
-    var name: String {
-        nameRu ?? nameEn ?? ""
-    }
-}

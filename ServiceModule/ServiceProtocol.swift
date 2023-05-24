@@ -11,5 +11,5 @@ import ReactiveKit
 
 public protocol ServiceProtocol {
     
-    func searchFilms(with token: String, name: String) -> Signal<[String], Error>
+    func searchFilms(with token: String, name: String) -> Signal<[Film], Error>
 }

@@ -13,4 +13,7 @@ protocol FilmCellViewModelProtocol {
     
     /// Film name
     var filmName: String { get }
+    
+    /// Film image URL
+    var imageURL: URL? { get }
 }

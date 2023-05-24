@@ -16,9 +16,6 @@ struct FilmCellViewModel: FilmCellViewModelProtocol {
     /// Film name
     let filmName: String
     
-    /// Default initializer
-    /// - Parameter filmName: current film name
-    init(filmName: String) {
-        self.filmName = filmName
-    }
+    /// Film image URL
+    let imageURL: URL?
 }

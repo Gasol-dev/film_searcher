@@ -77,8 +77,13 @@ final class MainViewController: UIViewController, StoreSubscriber {
             .searchFilms(with: APIConstants.token, name: text)
             .subscribe(on: ExecutionContext.global(qos: .userInitiated))
             .receive(on: ExecutionContext.main)
-            .observeNext { [weak self] names in
-                self?.filmModels = names.map(FilmCellViewModel.init)
+            .observeNext { [weak self] films in
+                self?.filmModels = films.map {
+                    FilmCellViewModel(
+                        filmName: $0.name,
+                        imageURL: URL(string: $0.posterUrlPreview)
+                    )
+                }
                 self?.tableView.reloadData()
             }
             .dispose(in: disposeBag)
@@ -165,7 +170,7 @@ extension MainViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.cellHeight
+        UITableView.automaticDimension
     }
 }
 
@@ -175,6 +180,5 @@ extension MainViewController {
     
     enum Constants {
         static let cellName = "filmCell"
-        static let cellHeight: CGFloat = 50
     }
 }
