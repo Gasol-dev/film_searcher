@@ -8,10 +8,15 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import ReSwift
 
 // MARK: - FilmCell
 
-final class FilmCell: UITableViewCell {
+final class FilmCell: UITableViewCell, StoreSubscriber {
+    
+    // MARK: - Aliases
+    
+    typealias StoreSubscriberStateType = MainState
     
     // MARK: - Properties
     
@@ -47,6 +52,11 @@ final class FilmCell: UITableViewCell {
         return button
     }()
     
+    private var webURL: URL?
+    
+    func newState(state: MainState) {
+    }
+    
     // MARK: - UITableViewCell
 
     required init?(coder aDecoder: NSCoder) {
@@ -55,12 +65,14 @@ final class FilmCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        mainStore.subscribe(self)
         self.selectionStyle = .none
         setup()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        mainStore.unsubscribe(self)
         posterImageView.kf.cancelDownloadTask()
         posterImageView.image = nil
         posterImageView.contentMode = .scaleAspectFit
@@ -77,9 +89,11 @@ final class FilmCell: UITableViewCell {
         nameLabel.text = viewModel.filmName
         posterImageView.kf.setImage(
             with: viewModel.imageURL,
-            placeholder: UIImage(systemName: "photo")) { [weak self] _ in
-                self?.posterImageView.contentMode = .scaleAspectFill
-            }
+            placeholder: Asset.photo.image
+        ) { [weak self] _ in
+            self?.posterImageView.contentMode = .scaleAspectFill
+        }
+        webURL = viewModel.webUrl
     }
 }
 
@@ -132,6 +146,7 @@ private extension FilmCell {
                 .size
                 .equalTo(Constants.buttonSize)
         }
+        linkButton.addTarget(self, action: #selector(linkButtonTap), for: .touchUpInside)
         contentView.addSubview(shareButton)
         shareButton.snp.makeConstraints { make in
             make
@@ -145,6 +160,7 @@ private extension FilmCell {
                 .size
                 .equalTo(Constants.buttonSize)
         }
+        shareButton.addTarget(self, action: #selector(shareButtonTap), for: .touchUpInside)
     }
     
     func setupNameLabel() {
@@ -167,6 +183,21 @@ private extension FilmCell {
                 .equalTo(linkButton.snp.top)
                 .offset(-Constants.contentViewVerticalInset)
         }
+    }
+}
+
+// MARK: - FilmCell
+
+private extension FilmCell {
+    
+    @objc func linkButtonTap() {
+        guard let url = webURL else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    @objc func shareButtonTap() {
+        guard let url = webURL else { return }
+        mainStore.dispatch(ShareButtonTapAction(url: url))
     }
 }
 

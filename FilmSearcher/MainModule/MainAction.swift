@@ -10,3 +10,14 @@ import ReSwift
 // MARK: - MainAction
 
 struct MainAction: Action {}
+
+// MARK: - ShareButtonTapAction
+
+struct ShareButtonTapAction: Action {
+    
+    let url: URL?
+}
+
+// MARK: - ResetShareURLTapAction
+
+struct ResetShareURLTapAction: Action {}

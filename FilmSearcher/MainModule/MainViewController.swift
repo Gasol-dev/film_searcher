@@ -88,6 +88,12 @@ final class MainViewController: UIViewController, StoreSubscriber {
     // MARK: - Useful
     
     func newState(state: MainState) {
+        guard let url = mainStore.state.shareURL else { return }
+        let vc = UIActivityViewController(activityItems: [url.absoluteString], applicationActivities: nil)
+        vc.completionWithItemsHandler = { _, _, _, _ in
+            mainStore.dispatch(ResetShareURLTapAction())
+        }
+        present(vc, animated: true)
     }
     
     private func makeSearchSignal(with text: String) {
@@ -100,10 +106,17 @@ final class MainViewController: UIViewController, StoreSubscriber {
             .receive(on: ExecutionContext.main)
         disposableSearch = searchSignal
             .observeNext { [weak self] films in
+                let webURLWithoutID = "https://www.kinopoisk.ru/film/"
                 self?.filmModels = films.map {
-                    FilmCellViewModel(
+                    let idStr = $0.posterUrl?
+                        .components(separatedBy: ".jpg")
+                        .first?
+                        .components(separatedBy: "/").last ?? ""
+                    let webURLstr = webURLWithoutID + idStr
+                    return FilmCellViewModel(
                         filmName: $0.name,
-                        imageURL: URL(string: $0.posterUrlPreview)
+                        imageURL: URL(string: $0.posterUrlPreview),
+                        webUrl: URL(string: webURLstr)
                     )
                 }
                 self?.tableView.reloadData()

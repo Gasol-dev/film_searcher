@@ -18,4 +18,7 @@ struct FilmCellViewModel: FilmCellViewModelProtocol {
     
     /// Film image URL
     let imageURL: URL?
+    
+    /// Film web page
+    let webUrl: URL?
 }

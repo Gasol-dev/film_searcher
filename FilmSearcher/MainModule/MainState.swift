@@ -14,4 +14,5 @@ struct MainState {
     // MARK: - Properties
     
     var token = APIConstants.token
+    var shareURL: URL?
 }

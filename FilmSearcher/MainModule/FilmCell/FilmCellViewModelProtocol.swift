@@ -16,4 +16,7 @@ protocol FilmCellViewModelProtocol {
     
     /// Film image URL
     var imageURL: URL? { get }
+    
+    /// Film web page
+    var webUrl: URL? { get }
 }

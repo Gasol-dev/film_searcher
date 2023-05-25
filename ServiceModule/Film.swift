@@ -19,6 +19,8 @@ public struct Film: Decodable {
     
     public var posterUrlPreview: String
     
+    public var posterUrl: String?
+    
     public var name: String {
         nameRu ?? nameEn ?? ""
     }
