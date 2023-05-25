@@ -28,9 +28,23 @@ final class FilmCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
-        imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return imageView
+    }()
+    
+    /// Link button
+    private let linkButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "link")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = AppTheme.filmCellButtonsTintColor
+        return button
+    }()
+    
+    /// Share button
+    private let shareButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "share")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = AppTheme.filmCellButtonsTintColor
+        return button
     }()
     
     // MARK: - UITableViewCell
@@ -75,6 +89,7 @@ private extension FilmCell {
     
     func setup() {
         setupPosterImageView()
+        setupButtons()
         setupNameLabel()
     }
     
@@ -102,6 +117,36 @@ private extension FilmCell {
         }
     }
     
+    func setupButtons() {
+        contentView.addSubview(linkButton)
+        linkButton.snp.makeConstraints { make in
+            make
+                .leading
+                .equalToSuperview()
+                .offset(Constants.contentViewHorizontalInset)
+            make
+                .bottom
+                .equalToSuperview()
+                .offset(-Constants.contentViewVerticalInset)
+            make
+                .size
+                .equalTo(Constants.buttonSize)
+        }
+        contentView.addSubview(shareButton)
+        shareButton.snp.makeConstraints { make in
+            make
+                .leading
+                .equalTo(linkButton.snp.trailing)
+                .offset(Constants.buttonsInterspacing)
+            make
+                .bottom
+                .equalTo(linkButton.snp.bottom)
+            make
+                .size
+                .equalTo(Constants.buttonSize)
+        }
+    }
+    
     func setupNameLabel() {
         contentView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
@@ -119,7 +164,7 @@ private extension FilmCell {
                 .offset(-Constants.contentViewInterspacing)
             make
                 .bottom
-                .equalToSuperview()
+                .equalTo(linkButton.snp.top)
                 .offset(-Constants.contentViewVerticalInset)
         }
     }
@@ -136,5 +181,7 @@ extension FilmCell {
         static let contentViewVerticalInset: CGFloat = 8
         static let contentViewInterspacing: CGFloat = 8
         static let imageCornerRadius: CGFloat = 11
+        static let buttonsInterspacing: CGFloat = 12
+        static let buttonSize: CGFloat = 24
     }
 }
