@@ -18,13 +18,9 @@ final class DependenciesContainer {
     static let `default` = DependenciesContainer()
     
     let container: Container = {
-        let container = Container()
-        container.register(ServiceProtocol.self) { r in
-            Service(session: URLSession(configuration: .default))
-        }
-        container.register(MainViewController.self) { resolver in
-            let searchService = resolver ~> ServiceProtocol.self
-            return MainViewController(filmModels: [], searchService: searchService)
+        let container = Container(parent: ServiceModuleContainer.default.container)
+        container.register(MainViewController.self) { r in
+            MainViewController(filmModels: [], searchService: r~>)
         }
         return container
     }()

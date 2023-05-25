@@ -36,9 +36,6 @@ final class MainViewController: UIViewController, StoreSubscriber {
         return textField
     }()
     
-    /// DisposeBag instance
-    private let disposeBag = DisposeBag()
-    
     /// Search service
     private let searchService: ServiceProtocol
     
@@ -54,6 +51,7 @@ final class MainViewController: UIViewController, StoreSubscriber {
         return label
     }()
     
+    /// Disposable search
     private var disposableSearch: Disposable?
     
     // MARK: - Initializers
@@ -97,7 +95,7 @@ final class MainViewController: UIViewController, StoreSubscriber {
         activityIndicator.startAnimating()
         let searchSignal = searchService
             .searchFilms(with: APIConstants.token, name: text)
-            .delay(interval: 1)
+            .delay(interval: .random(0.5, 1.5))
             .subscribe(on: ExecutionContext.global(qos: .userInitiated))
             .receive(on: ExecutionContext.main)
         disposableSearch = searchSignal
@@ -112,8 +110,6 @@ final class MainViewController: UIViewController, StoreSubscriber {
                 self?.notFoundLabel.isHidden = !(self?.filmModels.isEmpty ?? false)
                 self?.activityIndicator.stopAnimating()
             }
-        disposableSearch?
-            .dispose(in: disposeBag)
     }
     
     private func resetTable() {

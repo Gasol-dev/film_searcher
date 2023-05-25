@@ -9,7 +9,7 @@ import ReactiveKit
 
 // MARK: - Service
 
-final public class Service {
+final class Service {
     
     // MARK: - Properties
     
@@ -19,7 +19,7 @@ final public class Service {
     
     /// Default initializer
     /// - Parameter session: URLSession instance
-    public init(session: URLSession) {
+    init(session: URLSession) {
         self.defaultSession = session
     }
 }
@@ -28,7 +28,7 @@ final public class Service {
 
 extension Service: ServiceProtocol {
 
-    public func searchFilms(with token: String, name: String) -> Signal<[Film], Error> {
+    func searchFilms(with token: String, name: String) -> Signal<[Film], Error> {
         Signal { observer in
             guard
                 var urlComponents = URLComponents(string: "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword") else {
@@ -52,8 +52,6 @@ extension Service: ServiceProtocol {
                 } else if let data = data,
                           let response = response as? HTTPURLResponse,
                           response.statusCode == SearchStatusCode.success.rawValue {
-                    print(response)
-                    print(data.description)
                     guard let responseObject = try? JSONDecoder().decode(SearchResponse.self, from: data) else {
                         print("Decoding error")
                         return

@@ -28,6 +28,8 @@ final class FilmCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
+        imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return imageView
     }()
     
@@ -45,6 +47,7 @@ final class FilmCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        posterImageView.kf.cancelDownloadTask()
         posterImageView.image = nil
         posterImageView.contentMode = .scaleAspectFit
     }
