@@ -34,7 +34,7 @@ final class FilmCell: UITableViewCell {
     /// Link button
     private let linkButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "link")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(Asset.link.image.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = AppTheme.filmCellButtonsTintColor
         return button
     }()
@@ -42,7 +42,7 @@ final class FilmCell: UITableViewCell {
     /// Share button
     private let shareButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "share")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(Asset.share.image.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = AppTheme.filmCellButtonsTintColor
         return button
     }()

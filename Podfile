@@ -9,6 +9,7 @@ target 'FilmSearcher' do
   pod 'ReactiveKit'
   pod "SwinjectAutoregistration"
   pod "Kingfisher"
+  pod 'SwiftGen', '~> 6.0'
 
 end
 
