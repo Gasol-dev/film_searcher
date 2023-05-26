@@ -15,7 +15,7 @@ struct MainAction: Action {}
 
 struct ShareButtonTapAction: Action {
     
-    let url: URL?
+    let url: URL
 }
 
 // MARK: - ResetShareURLTapAction

@@ -12,11 +12,7 @@ import ReSwift
 
 // MARK: - FilmCell
 
-final class FilmCell: UITableViewCell, StoreSubscriber {
-    
-    // MARK: - Aliases
-    
-    typealias StoreSubscriberStateType = MainState
+final class FilmCell: UITableViewCell {
     
     // MARK: - Properties
     
@@ -54,9 +50,6 @@ final class FilmCell: UITableViewCell, StoreSubscriber {
     
     private var webURL: URL?
     
-    func newState(state: MainState) {
-    }
-    
     // MARK: - UITableViewCell
 
     required init?(coder aDecoder: NSCoder) {
@@ -65,14 +58,12 @@ final class FilmCell: UITableViewCell, StoreSubscriber {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        mainStore.subscribe(self)
         self.selectionStyle = .none
         setup()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        mainStore.unsubscribe(self)
         posterImageView.kf.cancelDownloadTask()
         posterImageView.image = nil
         posterImageView.contentMode = .scaleAspectFit
