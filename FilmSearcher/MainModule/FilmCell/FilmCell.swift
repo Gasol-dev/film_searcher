@@ -192,12 +192,23 @@ private extension FilmCell {
     
     @objc func linkButtonTap() {
         guard let url = webURL else { return }
+        animateButton(button: linkButton)
         UIApplication.shared.open(url)
     }
     
     @objc func shareButtonTap() {
         guard let url = webURL else { return }
+        animateButton(button: shareButton)
         mainStore.dispatch(ShareButtonTapAction(url: url))
+    }
+    
+    func animateButton(button: UIButton) {
+        UIView.animate(withDuration: 0.38) {
+            button.alpha = 0.62
+        }
+        UIView.animate(withDuration: 0.62, delay: 0.38) {
+            button.alpha = 1
+        }
     }
 }
 
