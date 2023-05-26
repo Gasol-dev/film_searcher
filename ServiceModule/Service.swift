@@ -5,6 +5,7 @@
 //  Created by Alexander Lezya on 22.05.2023.
 //
 
+import Alamofire
 import ReactiveKit
 
 // MARK: - Service
@@ -30,44 +31,44 @@ extension Service: ServiceProtocol {
 
     func searchFilms(with token: String, name: String) -> Signal<[Film], Error> {
         Signal { observer in
-            guard
-                var urlComponents = URLComponents(string: "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword") else {
-                return BlockDisposable {
-                    print("URL Components is nil")
-                }
+            guard let url = URL(string: Constants.searchFilmURL) else {
+                return BlockDisposable { print("URL is nil") }
             }
-            urlComponents.queryItems = [URLQueryItem(name: "keyword", value: name)]
-            guard let url = urlComponents.url else {
-                return BlockDisposable {
-                    print("URL is nil")
-                }
-            }
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            request.setValue(token, forHTTPHeaderField: "X-API-KEY")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            let dataTask = self.defaultSession.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    observer.receive(completion: .failure(error))
-                } else if let data = data,
-                          let response = response as? HTTPURLResponse,
-                          response.statusCode == SearchStatusCode.success.rawValue {
-                    guard let responseObject = try? JSONDecoder().decode(SearchResponse.self, from: data) else {
-                        print("Decoding error")
+            let request = AF.request(
+                url,
+                parameters: ["keyword": name],
+                headers: [
+                    "X-API-KEY": token,
+                    "Content-Type": "application/json"
+                ]
+            ).responseDecodable(of: SearchResponse.self) { response in
+                switch response.result {
+                case .success(let responseObject):
+                    guard let statusCode = response.response?.statusCode,
+                          let searchStatusCode = SearchStatusCode(rawValue: statusCode) else {
                         return
                     }
-                    observer.receive(responseObject.films)
-                    observer.receive(completion: .finished)
-                } else if let _ = data,
-                          let response = response as? HTTPURLResponse,
-                let searchStatusCode = SearchStatusCode(rawValue: response.statusCode) {
-                    print(searchStatusCode.description)
+                    switch searchStatusCode {
+                    case .success:
+                        observer.receive(responseObject.films)
+                        observer.receive(completion: .finished)
+                    case .filmsNotFound, .requestLimitExceeded, .wrongToken, .tooManyRequests:
+                        print(searchStatusCode.description)
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
-            dataTask.resume()
             return BlockDisposable {
-                dataTask.cancel()
+                request.cancel()
             }
         }
+    }
+}
+
+extension Service {
+    
+    enum Constants {
+        static let searchFilmURL = "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword"
     }
 }

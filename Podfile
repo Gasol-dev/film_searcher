@@ -17,6 +17,7 @@ target 'ServiceModule' do
 
   pod 'ReactiveKit'
   pod 'Swinject'
+  pod 'Alamofire'
 
 end
 
